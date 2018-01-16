@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Poster } from './Movie';
+import Overdrive from 'react-overdrive';
 import loading from './loading.svg';
 
 const POSTER_PATH = 'http://image.tmdb.org/t/p/w154';
@@ -40,7 +41,9 @@ class MovieDetail extends Component {
         <MovieWrapper backdrop={`${BACKDROP_PATH}${movie.backdrop_path}`}>
           <MovieInfo>
             {movie.poster_path &&
-              <Poster src={`${POSTER_PATH}${movie.poster_path}`} alt={movie.title} />
+              <Overdrive id={`${movie.id}`}>
+                <Poster src={`${POSTER_PATH}${movie.poster_path}`} alt={movie.title} />
+              </Overdrive>
             }
             <div>
               <h1>{movie.title}</h1>
