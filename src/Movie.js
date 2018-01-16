@@ -6,23 +6,21 @@ import Overdrive from 'react-overdrive';
 
 const POSTER_PATH = 'http://image.tmdb.org/t/p/w154';
 
-export default class Movie extends Component {
-  static propTypes = {
-    movie: PropTypes.shape({
-      title: PropTypes.string.isRequired,
-    }).isRequired,
-  }
-  render() {
-    const { movie } = this.props;
-    return (
-      <Link to={`/${movie.id}`}>
-        <Overdrive id={`${movie.id}`}>
-          <Poster src={`${POSTER_PATH}${movie.poster_path}`} alt={movie.title} />
-        </Overdrive>
-      </Link>
-    );
-  }
+const Movie = ({ movie }) => (
+  <Link to={`/${movie.id}`}>
+    <Overdrive id={`${movie.id}`}>
+      <Poster src={`${POSTER_PATH}${movie.poster_path}`} alt={movie.title} />
+    </Overdrive>
+  </Link>
+);
+
+Movie.propTypes = {
+  movie: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+  }).isRequired,
 }
+
+export default Movie;
 
 export const Poster = styled.img`
   box-shadow: 0 0 35px black;
