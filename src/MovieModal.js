@@ -4,6 +4,7 @@ import { Poster } from './Movie';
 import Overdrive from 'react-overdrive';
 import loading from './loading.svg';
 import { LoadingWrapper } from './MovieDetail';
+import { apiKey } from './MoviesList';
 
 const POSTER_PATH = 'http://image.tmdb.org/t/p/w154';
 
@@ -14,7 +15,7 @@ class MovieModal extends Component {
   }
   async componentDidMount() {
     try {
-      const res = await fetch(`https://api.themoviedb.org/3/movie/${this.props.movieId}?api_key=xxxxxx&language=en-US`);
+      const res = await fetch(`https://api.themoviedb.org/3/movie/${this.props.movieId}?api_key=${apiKey}&language=en-US`);
       if (res.ok) {
         const movie = await res.json();
         setTimeout(() => this.setState({ movie }));
@@ -24,7 +25,6 @@ class MovieModal extends Component {
         });
       }
     } catch(e) {
-      // a fetch() promise rejects with a TypeError when a network error is encountered, although this usually means a permissions issue or similar. An accurate check for a successful fetch() would include checking that the promise resolved, then checking that the Response.ok property has a value of true. An HTTP status of 404 does not constitute a network error.
       console.log(e);
     }
   }

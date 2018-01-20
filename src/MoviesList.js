@@ -4,6 +4,8 @@ import Movie from './Movie';
 import MovieModal from './MovieModal';
 import MovieItem from './MovieItem';
 
+export const apiKey = 'xxxxxx';
+
 class MoviesList extends Component {
   state = {
     movies: [],
@@ -14,7 +16,7 @@ class MoviesList extends Component {
   }
   async componentDidMount() {
     try {
-      const res = await fetch('https://api.themoviedb.org/3/discover/movie?api_key=xxxxxx&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1');
+      const res = await fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1`);
       if (res.ok) {
         const movies = await res.json();
         this.setState({
@@ -30,7 +32,7 @@ class MoviesList extends Component {
       console.log(e);
     }
     try {
-      const res2 = await fetch('https://api.themoviedb.org/3/discover/movie?api_key=xxxxxx&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=2');
+      const res2 = await fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=2`);
       if (res2.ok) {
         const modalMovies = await res2.json();
         this.setState({
