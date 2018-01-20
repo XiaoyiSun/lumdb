@@ -3,18 +3,18 @@ import styled from 'styled-components';
 import { Poster } from './Movie';
 import Overdrive from 'react-overdrive';
 import loading from './loading.svg';
+import { LoadingWrapper } from './MovieDetail';
 
 const POSTER_PATH = 'http://image.tmdb.org/t/p/w154';
-const BACKDROP_PATH = 'http://image.tmdb.org/t/p/w1280';
 
-class MovieDetail extends Component {
+class MovieModal extends Component {
   state = {
     movie: {},
     errMsg: '',
   }
   async componentDidMount() {
     try {
-      const res = await fetch(`https://api.themoviedb.org/3/movie/${this.props.match.params.id}?api_key=xxxxxx&language=en-US`);
+      const res = await fetch(`https://api.themoviedb.org/3/movie/${this.props.movieId}?api_key=xxxxxx&language=en-US`);
       if (res.ok) {
         const movie = await res.json();
         setTimeout(() => this.setState({ movie }));
@@ -38,51 +38,37 @@ class MovieDetail extends Component {
       );
     } else {
       return (
-        <MovieWrapper backdrop={`${BACKDROP_PATH}${movie.backdrop_path}`}>
-          <MovieInfo>
-            {movie.poster_path &&
-              <Overdrive id={`${movie.id}`}>
-                <Poster src={`${POSTER_PATH}${movie.poster_path}`} alt={movie.title} />
-              </Overdrive>
-            }
-            <div>
-              <h1>{movie.title}</h1>
-              <h3>{movie.release_date}</h3>
-              <p>{movie.overview}</p>
-            </div>
-          </MovieInfo>
-        </MovieWrapper>
+        <MovieModalInfo>
+          {movie.poster_path &&
+            <Overdrive id={`${movie.id}`}>
+              <Poster src={`${POSTER_PATH}${movie.poster_path}`} alt={movie.title} />
+            </Overdrive>
+          }
+          <div>
+            <h1>{movie.title}</h1>
+            <h3>{movie.release_date}</h3>
+            <p>{movie.overview}</p>
+          </div>
+        </MovieModalInfo>
       );
     }
   }
 }
 
-export default MovieDetail;
-
-const MovieWrapper = styled.div`
-  position: relative;
-  padding-top: 50vh;
-  background: url(${props => props.backdrop}) no-repeat;
-  background-size: cover;
-`;
-
-export const MovieInfo = styled.div`
-  background: white;
+const MovieModalInfo = styled.div`
+  background-color: white;
+  width: 50%;
   text-align: left;
-  padding: 2rem 10%;
   display: flex;
+  justify-content: center;
+  align-items: flex-end;
   > div {
-    margin-left: 20px;
+    margin-left: 1rem;
   }
   img {
     position: relative;
-    top: -5rem;
+    top: -1.1rem;
   }
 `;
 
-export const LoadingWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100px;
-`;
+export default MovieModal;
