@@ -1,51 +1,22 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import Movie from './Movie';
 import MovieModal from './MovieModal';
 import MovieItem from './MovieItem';
+import Pagination from './Pagination';
 
 export const apiKey = 'xxxxxx';
 
 class MoviesList extends Component {
   state = {
-    movies: [],
-    modalMovies: [],
+    movies: {},
     errMsg: '',
     show: false,
     showMovieId: '',
+    pagesAllowed: 5,
+    currentPage: 1,
   }
-  async componentDidMount() {
-    try {
-      const res = await fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1`);
-      if (res.ok) {
-        const movies = await res.json();
-        this.setState({
-          movies: movies.results,
-        });
-      } else {
-        this.setState({
-          errMsg: `${res.status} ${res.statusText}`,
-        });
-      }
-    } catch(e) {
-      // a fetch() promise rejects with a TypeError when a network error is encountered, although this usually means a permissions issue or similar. An accurate check for a successful fetch() would include checking that the promise resolved, then checking that the Response.ok property has a value of true. An HTTP status of 404 does not constitute a network error.
-      console.log(e);
-    }
-    try {
-      const res2 = await fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=2`);
-      if (res2.ok) {
-        const modalMovies = await res2.json();
-        this.setState({
-          modalMovies: modalMovies.results,
-        });
-      } else {
-        this.setState({
-          errMsg: `${res2.status} ${res2.statusText}`,
-        });
-      }
-    } catch(e) {
-      console.log(e);
-    }
+  componentDidMount() {
+    this.fetchMoreMovies(1);
   }
   showModal = (id) => {
     this.setState({
@@ -61,19 +32,52 @@ class MoviesList extends Component {
       });
     }
   }
+  changePage = (i) => {
+    if (i > 0 && i <= this.state.pagesAllowed) {
+      if (this.state.movies) {
+        this.fetchMoreMovies(i);
+      }
+      this.setState({ currentPage: i });
+    }
+  }
+  fetchMoreMovies = async (pageNum) => {
+    try {
+      const res = await fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=${pageNum}`);
+      if (res.ok) {
+        const movies = await res.json();
+        this.setState({
+          movies: {
+            ...this.state.movies,
+            [`page${pageNum}`]: movies.results,
+          },
+        });
+      } else {
+        this.setState({
+          errMsg: `${res.status} ${res.statusText}`,
+        });
+      }
+    } catch(e) {
+      console.log(e);
+    }
+  }
   render() {
     return (
       <div>
         <MovieGrid>
-          {this.state.movies.map(movie => <Movie key={movie.id} movie={movie} />)}
-        </MovieGrid>
-        <MovieGrid>
-          {this.state.modalMovies.map(movie => <MovieItem key={movie.id} movie={movie} showModal={this.showModal} />)}
+          {this.state.movies[`page${this.state.currentPage}`] && this.state.movies[`page${this.state.currentPage}`].map(movie => <MovieItem key={movie.id} movie={movie} showModal={this.showModal} />)}
         </MovieGrid>
         {this.state.show && 
           <MovieModalWrapper onClick={this.closeModal} id="modal">
             <MovieModal movieId={this.state.showMovieId} />
           </MovieModalWrapper>
+        }
+        {this.state.movies[`page${this.state.currentPage}`] &&
+          <Pagination
+            totalPages={this.state.pagesAllowed}
+            currentPage={this.state.currentPage}
+            changePage={this.changePage}
+            pagesIndicesList={Array.from(new Array(this.state.pagesAllowed), (val, i) => i + 1)}
+          />
         }
       </div>
     );
@@ -85,7 +89,7 @@ export default MoviesList;
 const MovieGrid = styled.div`
   display: grid;
   padding: 1rem;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   grid-row-gap: 1rem;
 `;
 

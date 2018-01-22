@@ -9,7 +9,7 @@ class MovieItem extends Component {
   render() {
     const { movie, showModal } = this.props;
     return (
-      <Overdrive id={`${movie.id}`} key={movie.id} onClick={(e) => showModal(movie.id)}>
+      <Overdrive id={`${movie.id}`} key={movie.id} onClick={(e) => showModal(movie.id)} style={{ cursor: 'pointer' }}>
         <Poster src={`${POSTER_PATH}${movie.poster_path}`} alt={movie.title} />
       </Overdrive>
     );

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  BrowserRouter as Router,
+  HashRouter as Router,
   Route,
   Switch,
   Link,
@@ -13,7 +13,6 @@ import MovieDetail from './MovieDetail';
 
 class App extends Component {
   render() {
-    // console.log(this.state.movies)
     return (
       <Router>
         <div className="App">
