@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import MovieModal from './MovieModal';
 import MovieItem from './MovieItem';
 import Pagination from './Pagination';
+import Accordion from './Accordion';
 
 export const apiKey = 'xxxxxx';
 
@@ -63,8 +64,13 @@ class MoviesList extends Component {
   render() {
     return (
       <div>
+        {this.state.movies[`page${this.state.currentPage}`] &&
+          <Accordion movies={this.state.movies[`page${this.state.currentPage}`]} />
+        }
         <MovieGrid>
-          {this.state.movies[`page${this.state.currentPage}`] && this.state.movies[`page${this.state.currentPage}`].map(movie => <MovieItem key={movie.id} movie={movie} showModal={this.showModal} />)}
+          {this.state.movies[`page${this.state.currentPage}`] &&
+            this.state.movies[`page${this.state.currentPage}`].map(movie => <MovieItem key={movie.id} movie={movie} showModal={this.showModal} />)
+          }
         </MovieGrid>
         {this.state.show && 
           <MovieModalWrapper onClick={this.closeModal} id="modal">
