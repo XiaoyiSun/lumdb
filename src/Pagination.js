@@ -1,37 +1,32 @@
-import React, { Component } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
-class Pagination extends Component {
-  render() {
-    const {
-      currentPage,
-      changePage,
-      totalPages,
-      pagesIndicesList
-    } = this.props;
-    return (
-      <PaginationWrapper>
-        <PaginationItem disable={currentPage === 1}>
-          <a onClick={() => changePage(1)}>First</a>
-        </PaginationItem>
-        <PaginationItem disable={currentPage === 1}>
-          <a onClick={() => changePage(currentPage-1)}>Previous</a>
-        </PaginationItem>
-        {pagesIndicesList.map((i) => (
-          <PaginationItem active={i === currentPage} key={i}>
-            <a onClick={() => changePage(i)}>{i}</a>
-          </PaginationItem>
-        ))}
-        <PaginationItem disable={currentPage === totalPages}>
-          <a onClick={() => changePage(currentPage+1)}>Next</a>
-        </PaginationItem>
-        <PaginationItem disable={currentPage === totalPages}>
-          <a onClick={() => changePage(totalPages)}>Last</a>
-        </PaginationItem>
-      </PaginationWrapper>
-    );
-  }
-}
+const Pagination = ({
+  currentPage,
+  changePage,
+  totalPages,
+  pagesIndicesList
+}) => (
+  <PaginationWrapper>
+    <PaginationItem disable={currentPage === 1}>
+      <a onClick={() => changePage(1)}>First</a>
+    </PaginationItem>
+    <PaginationItem disable={currentPage === 1}>
+      <a onClick={() => changePage(currentPage-1)}>Previous</a>
+    </PaginationItem>
+    {pagesIndicesList.map((i) => (
+      <PaginationItem active={i === currentPage} key={i}>
+        <a onClick={() => changePage(i)}>{i}</a>
+      </PaginationItem>
+    ))}
+    <PaginationItem disable={currentPage === totalPages}>
+      <a onClick={() => changePage(currentPage+1)}>Next</a>
+    </PaginationItem>
+    <PaginationItem disable={currentPage === totalPages}>
+      <a onClick={() => changePage(totalPages)}>Last</a>
+    </PaginationItem>
+  </PaginationWrapper>
+);
 
 export default Pagination;
 
