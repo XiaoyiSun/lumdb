@@ -48,4 +48,7 @@ const PaginationItem = styled.li`
     box-shadow: 0 0 10px #080808;
     border-radius: 5px;
   }
+  > a:hover:not(.active) {
+    background-color: ${props => !props.disable && !props.active ? '#444' : ''};
+  }
 `;
