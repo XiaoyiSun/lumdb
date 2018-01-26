@@ -89,7 +89,7 @@ const AccordionItem = styled.div`
 `;
 
 const AccordionItemImage = styled.img`
-  border: ${props => props.active ? '1.5px solid #eee' : ''};
+  border: ${props => props.active ? '1.5px solid #eee' : '1.5px solid #111'};
 `;
 
 const AccordionDetailWrapper = styled.div`
