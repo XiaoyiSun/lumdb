@@ -5,7 +5,7 @@ import MovieItem from './MovieItem';
 import Pagination from './Pagination';
 import Accordion from './Accordion';
 
-export const apiKey = 'xxxxxx';
+export const apiKey = 'b021da5f496adc95b903912c20b37344';
 
 class MoviesList extends Component {
   state = {
@@ -93,10 +93,11 @@ class MoviesList extends Component {
 export default MoviesList;
 
 const MovieGrid = styled.div`
-  display: grid;
   padding: 1rem;
-  grid-template-columns: repeat(5, 1fr);
-  grid-row-gap: 1rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 154px);
+  grid-gap: 2rem 3rem;
+  justify-content: center;
 `;
 
 const MovieModalWrapper = styled.div`
